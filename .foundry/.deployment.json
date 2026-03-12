@@ -1,0 +1,8 @@
+{
+  "hostedAgentDeployOptions": {
+    "dockerContextPath": ".",
+    "dockerfilePath": "./Dockerfile",
+    "cpu": "1.0",
+    "memory": "2.0Gi"
+  }
+}
