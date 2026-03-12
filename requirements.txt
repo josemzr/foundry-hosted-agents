@@ -1,0 +1,2 @@
+python-dotenv
+azure-ai-agentserver-langgraph==1.0.0b15
