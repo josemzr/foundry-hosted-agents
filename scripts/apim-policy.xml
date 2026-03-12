@@ -1,0 +1,31 @@
+<policies>
+    <inbound>
+        <base />
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" require-scheme="Bearer">
+            <openid-config url="https://login.microsoftonline.com/{{TENANT_ID}}/v2.0/.well-known/openid-configuration" />
+            <audiences>
+                <audience>https://ai.azure.com</audience>
+            </audiences>
+        </validate-jwt>
+        <set-variable name="userOid" value="@(context.Request.Headers.GetValueOrDefault(&quot;Authorization&quot;,&quot;&quot;).Replace(&quot;Bearer &quot;,&quot;&quot;).AsJwt()?.Claims.GetValueOrDefault(&quot;oid&quot;,&quot;anonymous&quot;))" />
+        <set-body>@{
+            var body = context.Request.Body.As&lt;JObject&gt;();
+            var originalInput = body["input"]?.ToString() ?? "";
+            var userOid = (string)context.Variables["userOid"];
+            body["input"] = "[user_id:" + userOid + "] " + originalInput;
+            return body.ToString();
+        }</set-body>
+        <set-header name="api-version" exists-action="override">
+            <value>2025-11-15-preview</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
