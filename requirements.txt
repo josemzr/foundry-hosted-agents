@@ -1,0 +1,5 @@
+python-dotenv
+azure-ai-agentserver-langgraph==1.0.0b15
+a2a-sdk>=0.3.0
+httpx
+langchain-mcp-adapters>=0.2.0
